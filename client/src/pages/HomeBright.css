@@ -1,0 +1,159 @@
+/* ===== GENERAL LAYOUT ===== */
+.home-container {
+  font-family: "Segoe UI", sans-serif;
+  background: #f9fafc;
+  color: #222;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  height: 75vh;
+  overflow: hidden;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(1) contrast(1.05); /* ✅ removes the ugly blue/grey overlay */
+  transition: opacity 1s ease-in-out;
+}
+
+.hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+}
+
+.fade {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== STATS SECTION ===== */
+.stats-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #fff;
+  border-radius: 10px;
+  width: 90%;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.stat-card {
+  background: #f5f8ff;
+  border-radius: 12px;
+  padding: 1.8rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: #234;
+}
+
+.stat-card p {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.stat-card.total {
+  border-left: 5px solid #4a90e2;
+}
+.stat-card.resolved {
+  border-left: 5px solid #3cb371;
+}
+.stat-card.pending {
+  border-left: 5px solid #e6b800;
+}
+.stat-card.users {
+  border-left: 5px solid #8a2be2;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-section {
+  text-align: center;
+  padding: 3rem 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  color: #333;
+}
+
+.about-section h2 {
+  font-size: 1.8rem;
+  color: #1c2a4a;
+  margin-bottom: 1rem;
+}
+
+.about-section p {
+  line-height: 1.7;
+  font-size: 1.1rem;
+}
+
+/* ===== INFO CARDS ===== */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  background: #f9fafc;
+  width: 90%;
+  margin: 0 auto 3rem;
+}
+
+.info-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  color: #1c2a4a;
+  margin-bottom: 0.8rem;
+}

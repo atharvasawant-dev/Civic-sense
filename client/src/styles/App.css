@@ -1,0 +1,571 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.header-ui {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-content-ui {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.logo-ui {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-text-ui {
+  font-size: 1.5rem;
+  color: #234567;
+  font-weight: 700;
+}
+
+.header {
+  background: #234567;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-ui {
+  display: flex;
+  gap: 2rem;
+}
+
+.header nav a, .header nav .active {
+  color: #fff;
+  margin-left: 1rem;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.header nav a:hover, .header nav .active {
+  background: #009688;
+  color: #fff;
+}
+
+.nav-ui a {
+  color: #234567;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.nav-ui a.active-ui, .nav-ui a:hover {
+  background: #e3eaf2;
+}
+
+.home {
+  padding-top: 60px;
+}
+
+.hero.city-hero {
+  background: url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  position: relative;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(35,69,103,0.7);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.hero-content h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-content p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-btn {
+  background: #009688;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,180,216,0.07);
+  transition: background 0.2s;
+}
+
+.hero-btn:hover {
+  background: #00796b;
+}
+
+.page-container {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 80px;
+  padding-bottom: 60px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 700px;
+}
+
+.card h2 {
+  font-size: 2rem;
+  color: #234567;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.card p {
+  color: #444;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.success-message {
+  color: #00796b;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.mission-section {
+  margin-top: 2rem;
+}
+
+.footer {
+  background: #fff;
+  color: #234567;
+  text-align: center;
+  padding: 0.5rem 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.07);
+  border-top: 1px solid #e0e0e0;
+}
+
+.slim-footer {
+  padding: 0.5rem 0;
+}
+
+.home-page-ui {
+  background: #f5f7fa;
+}
+.hero-ui {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  margin-bottom: 2rem;
+}
+.hero-img-ui {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.85);
+}
+.hero-overlay-ui {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(0,0,0,0.25);
+}
+.hero-title-ui {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.main-content-ui {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 0 1rem;
+}
+.mission-initiatives-ui {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.mission-ui, .initiatives-ui {
+  flex: 1;
+}
+.mission-card-ui {
+  background: #e3f2fd;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.icon-ui {
+  font-size: 2.2rem;
+}
+.initiatives-cards-ui {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.initiative-card-ui {
+  flex: 1;
+  background: #fffbe6;
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.initiative-card-ui.purple-ui {
+  background: #f3f0fa;
+}
+.initiative-card-ui.yellow-ui {
+  background: #fffbe6;
+}
+.desc-ui {
+  color: #555;
+  font-size: 0.95rem;
+}
+.get-involved-news-ui {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.get-involved-ui {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.btn-group-ui {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.btn-ui {
+  background: #234567;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-ui.outline-ui {
+  background: #fff;
+  color: #234567;
+  border: 2px solid #234567;
+}
+.btn-ui:hover {
+  background: #1565c0;
+  color: #fff;
+}
+.latest-news-ui {
+  flex: 1;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem;
+}
+.news-cards-ui {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.news-card-ui {
+  background: #e3eaf2;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.news-card-ui img {
+  width: 100%;
+  height: 70px;
+  object-fit: cover;
+}
+.news-title-ui {
+  font-size: 0.95rem;
+  color: #234567;
+  padding: 0.5rem;
+  text-align: center;
+}
+.issue-status-ui {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.issue-status-ui h2 {
+  color: #234567;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .header-content-ui, .card, .main-content-ui, .mission-initiatives-ui, .get-involved-news-ui {
+    max-width: 98vw;
+    padding: 1rem;
+  }
+  .gallery, .info-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .news-cards-ui {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .header, .footer {
+    padding: 0.5rem;
+  }
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .logo-text-ui {
+    font-size: 1.1rem;
+  }
+  .nav-ui {
+    gap: 1rem;
+  }
+  .hero-content h2 {
+    font-size: 1.2rem;
+  }
+  .about-section, .gallery-section, .info-section {
+    padding: 1rem;
+  }
+  .gallery-img {
+    width: 100%;
+    height: 100px;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .card h2 {
+    font-size: 1.2rem;
+  }
+  .home-card h1 {
+    font-size: 1.2rem;
+  }
+  .hero-title-ui {
+    font-size: 1.2rem;
+  }
+  .main-content-ui {
+    padding: 1rem 0 0 0;
+  }
+  .mission-card-ui, .initiative-card-ui, .get-involved-ui, .latest-news-ui, .issue-status-ui {
+    padding: 1rem;
+  }
+  .news-card-ui {
+    width: 80px;
+  }
+}
+
+
+
+/* --- MyIssues card styles --- */
+.myissues-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  color: #1f3b73;
+  margin-bottom: 10px;
+}
+
+.myissues-subtitle {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.myissues-loading,
+.myissues-error,
+.myissues-empty {
+  text-align: center;
+  font-weight: 600;
+  margin: 20px 0;
+}
+
+.myissues-error {
+  color: red;
+}
+
+.myissues-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 2 cards per row */
+  gap: 40px;                              /* ✅ spacing between cards */
+  margin-top: 30px;
+  justify-content: center;                /* ✅ center the grid */
+  max-width: 1000px;                      /* ✅ keeps layout neat */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+.myissues-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;          /* ✅ take full column width */
+  height: auto;
+}
+
+
+.myissues-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.myissues-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.myissues-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.myissues-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 12px;
+  min-height: 40px; /* keeps cards even if description short */
+}
+
+.myissues-status {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.myissues-status.pending {
+  background: #f0ad4e;
+}
+
+.myissues-status.resolved {
+  background: #5cb85c;
+}
+
+.myissues-status.inprogress {
+  background: #0275d8;
+}
+
+.myissues-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.myissues-btn {
+  margin-top: 12px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.myissues-btn:hover {
+  background-color: #0056b3;
+}

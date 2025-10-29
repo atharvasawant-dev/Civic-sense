@@ -1,0 +1,94 @@
+.issues-page {
+  background-color: #f8fafc;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.issues-container {
+  max-width: 1100px;
+  width: 100%;
+  text-align: center;
+}
+
+.issues-title {
+  font-size: 2rem;
+  color: #1e3a5f;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.issues-subtitle {
+  color: #556677;
+  margin-bottom: 2rem;
+}
+
+.no-issues,
+.loading-text {
+  color: #444;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.issue-card {
+  background: #ffffff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.issue-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.issue-title {
+  color: #173b6c;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.issue-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.issue-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 0.6rem;
+}
+
+.status-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.status-badge.resolved {
+  background: #16a34a;
+}
+
+.status-badge.progress {
+  background: #2563eb;
+}
+
+.status-badge.pending {
+  background: #ca8a04;
+}

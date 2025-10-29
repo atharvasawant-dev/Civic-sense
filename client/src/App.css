@@ -1,0 +1,263 @@
+.report-form-ui {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+.form-row-ui {
+width: 100%;
+max-width: 420px;
+display: flex;
+flex-direction: column;
+margin: 0 auto;
+}
+.input-ui {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  background: #f7f9fb;
+  transition: border 0.2s;
+}
+.input-ui:focus {
+  border-color: #1a355e;
+  outline: none;
+}
+
+/* Issue Status Page Styles */
+.issue-status-list-ui {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.issue-status-card-ui {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.issue-title-ui {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #234567;
+  margin-bottom: 4px;
+}
+.issue-desc-ui {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+.issue-date-ui {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+.issue-status-badge-ui {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  padding: 4px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #234567;
+  background: #ffe066;
+  border: 1px solid #e3eaf2;
+}
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.report-card-ui {
+  max-width: 540px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.08);
+  padding: 36px 40px 32px 40px;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.report-card-ui h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: #1a355e;
+}
+
+.report-card-ui input[type="text"],
+.report-card-ui textarea,
+.report-card-ui select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  background: #f7f9fb;
+  transition: border 0.2s;
+}
+
+.report-card-ui input[type="text"]:focus,
+.report-card-ui textarea:focus,
+.report-card-ui select:focus {
+  border-color: #1a355e;
+  outline: none;
+}
+
+.report-card-ui textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.map-ui {
+  margin-bottom: 12px;
+}
+
+.report-card-ui label {
+  margin-bottom: 8px;
+  display: block;
+}
+
+.image-preview {
+  margin-top: 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: block;
+}
+
+.report-card-ui button[type="submit"] {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: #176d4b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(23, 109, 75, 0.08);
+  transition: background 0.2s;
+}
+
+.report-card-ui button[type="submit"]:hover {
+  background: #124d36;
+}
+
+.success-message {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #176d4b;
+}
+
+.page-container {
+  min-height: 100vh;
+  background: #f5f7fa;
+  padding-bottom: 60px;
+}
+
+/* Home Page Styles */
+.hero {
+  background: #1e3a8a;
+  color: white;
+  text-align: center;
+  padding: 3rem 1rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.home-cards {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 2rem auto;
+  flex-wrap: wrap;
+}
+
+.home-card {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.home-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.instructions {
+  margin: 2rem auto;
+  max-width: 700px;
+  background: #eef2ff;
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+}
+
+.instructions h2 {
+  margin-bottom: 1rem;
+}
+
+.instructions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.instructions li {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.stats {
+  margin: 2rem auto;
+  max-width: 500px;
+  text-align: center;
+  background: #f3f4f6;
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+}

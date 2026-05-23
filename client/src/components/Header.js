@@ -32,7 +32,10 @@ const Header = () => {
     window.location.reload();
   };
 
-  const links = [{ to: "/", label: "Home" }];
+  const links = [
+    { to: "/", label: "Home" },
+    { to: "/issues", label: "Public Reports" },
+  ];
 
   if (!isLoggedIn) {
     links.push({ to: "/register", label: "Register" });

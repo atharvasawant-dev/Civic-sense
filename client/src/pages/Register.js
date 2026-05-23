@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const Register = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'user' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,7 +20,7 @@ const Register = () => {
     }
     setError('');
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -26,7 +28,8 @@ const Register = () => {
       const data = await res.json();
       if (res.ok) {
         setSuccess(true);
-        localStorage.setItem('userRole', data.user.role); // Store role for navigation
+        localStorage.setItem('role', data.user.role);
+        setTimeout(() => navigate('/login'), 2000);
       } else {
         setError(data.error || 'Registration failed.');
       }
@@ -36,24 +39,40 @@ const Register = () => {
   };
 
   return (
-    <div className="page-container">
-      <div className="card">
-        <h2>Register</h2>
-        <p>Create your account to report and track civic issues.</p>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Full Name" value={form.name} onChange={handleChange} className="rounded border p-2" />
-          <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} className="rounded border p-2" />
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} className="rounded border p-2" />
-          <select name="role" value={form.role} onChange={handleChange} className="rounded border p-2">
-            <option value="user">User</option>
-            <option value="admin">Admin (Authorities Only)</option>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Create Account</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Join the community for a better city.</p>
+
+        <form onSubmit={handleSubmit}>
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="John Doe" value={form.name} onChange={handleChange} />
+
+          <label>Email</label>
+          <input type="email" name="email" placeholder="name@example.com" value={form.email} onChange={handleChange} />
+
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
+
+          <label>Account Type</label>
+          <select name="role" value={form.role} onChange={handleChange}>
+            <option value="user">Citizen</option>
+            <option value="admin">Authority</option>
           </select>
-          {error && <div className="text-red-600 font-semibold text-center">{error}</div>}
-          <button type="submit" className="bg-blue-700 text-white py-2 px-6 rounded hover:bg-blue-900 transition">Register</button>
+
+          {error && <div className="message message-error" style={{ textAlign: 'center' }}>{error}</div>}
+
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
+            Register
+          </button>
         </form>
-        {success && <div className="success-message">Registration successful!</div>}
+
+        {success && <div className="message message-success" style={{ marginTop: '20px', textAlign: 'center' }}>Registration successful! Redirecting to login...</div>}
+
+        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#86868b' }}>
+          Already have an account? <span onClick={() => navigate('/login')} style={{ color: '#0071e3', cursor: 'pointer' }}>Sign In</span>
+        </p>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -6,7 +6,7 @@ const app = express();
 
 // ====== DATABASE CONNECTION ======
 mongoose
-  .connect('mongodb://localhost:27017/civic_sense')
+  .connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/civic_sense')
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.error('❌ MongoDB connection error:', err));
 

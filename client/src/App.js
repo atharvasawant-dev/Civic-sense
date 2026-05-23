@@ -9,6 +9,9 @@ import Register from "./pages/Register";
 import ReportIssue from "./pages/ReportIssue";
 import MyIssues from "./pages/MyIssues";
 import Admin from "./pages/Admin";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Issues from "./pages/Issues";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
           <Route path="/report-issue" element={<ReportIssue />} />
           <Route path="/my-reports" element={<MyIssues />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/issues" element={<Issues />} />
         </Routes>
       </div>
       <Footer />

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../components/Footer";
+import { API_BASE_URL, BASE_URL } from "../config";
 
-const API_URL = "http://localhost:5000/api/admin/issues";
+const API_URL = `${API_BASE_URL}/admin/issues`;
 
 const Admin = () => {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch all issues (admin only)
   const fetchIssues = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -23,7 +22,6 @@ const Admin = () => {
     }
   };
 
-  // ✅ Update issue status
   const updateStatus = async (id, newStatus) => {
     try {
       const token = localStorage.getItem("token");
@@ -41,7 +39,6 @@ const Admin = () => {
     }
   };
 
-  // ✅ Delete issue
   const deleteIssue = async (id) => {
     if (!window.confirm("Are you sure you want to delete this issue?")) return;
 
@@ -53,8 +50,6 @@ const Admin = () => {
       });
       if (res.ok) {
         setIssues(issues.filter((i) => i._id !== id));
-      } else {
-        console.error("Failed to delete issue");
       }
     } catch (err) {
       console.error("Error deleting issue:", err);
@@ -65,154 +60,130 @@ const Admin = () => {
     fetchIssues();
   }, []);
 
-  if (loading) return <p style={{ textAlign: "center" }}>Loading issues...</p>;
+  if (loading) return (
+    <div className="page-container" style={{ textAlign: "center" }}>
+      <p style={{ color: "#86868b", fontSize: "21px" }}>Loading dashboard...</p>
+    </div>
+  );
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#f8f9fb",
-        padding: "2rem 1rem 6rem 1rem",
-      }}
-    >
-      <h2
-        style={{
-          textAlign: "center",
-          fontWeight: "700",
-          fontSize: "1.8rem",
-          marginBottom: "0.5rem",
-        }}
-      >
-        🛠 Admin Dashboard
-      </h2>
-      <p
-        style={{
-          textAlign: "center",
-          color: "#555",
-          marginBottom: "2rem",
-          fontSize: "1rem",
-        }}
-      >
-        Manage, resolve, or delete civic issues reported by users.
-      </p>
+    <div className="page-container">
+      <h2 style={{ fontSize: "40px", fontWeight: "600", marginBottom: "8px" }}>Admin Dashboard</h2>
+      <p style={{ color: "#86868b", fontSize: "21px", marginBottom: "40px" }}>Review and manage city-wide grievances.</p>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-          gap: "1.5rem",
-          justifyContent: "center",
-        }}
-      >
+      <div style={styles.grid}>
         {issues.length === 0 ? (
-          <p style={{ textAlign: "center" }}>No issues reported yet.</p>
+          <p style={{ color: "#86868b" }}>No issues reported yet.</p>
         ) : (
           issues.map((issue) => (
-            <div
-              key={issue._id}
-              style={{
-                background: "#fff",
-                borderRadius: "10px",
-                padding: "1.2rem",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <h3 style={{ fontWeight: "600", color: "#1a2b49" }}>
-                  {issue.title}
-                </h3>
-                <p><strong>Description:</strong> {issue.description}</p>
-                <p><strong>Category:</strong> {issue.category || "N/A"}</p>
-                <p><strong>Landmark:</strong> {issue.landmark || "N/A"}</p>
-                <p><strong>Pin Code:</strong> {issue.pincode || "N/A"}</p>
-                <p><strong>Status:</strong> {issue.status}</p>
-                <p><strong>Reported by:</strong> {issue.user?.email || "Unknown"}</p>
+            <div key={issue._id} className="card" style={styles.card}>
+              {issue.image && (
+                <img
+                  src={`${BASE_URL}/uploads/${issue.image}`}
+                  alt={issue.title}
+                  style={styles.image}
+                />
+              )}
+              <div style={styles.cardContent}>
+                <div style={styles.headerRow}>
+                   <h3 style={styles.title}>{issue.title}</h3>
+                   <span style={{ ...styles.badge, ...statusStyles[issue.status] }}>{issue.status}</span>
+                </div>
+                <p style={styles.description}>{issue.description}</p>
+                <div style={styles.infoRow}>
+                  <p style={styles.meta}><strong>Category:</strong> {issue.category}</p>
+                  <p style={styles.meta}><strong>Location:</strong> {issue.landmark}, {issue.pincode}</p>
+                  <p style={styles.meta}><strong>Reported by:</strong> {issue.user?.email || "Unknown"}</p>
+                </div>
 
-                {issue.image && (
-                  <img
-                    src={`http://localhost:5000/uploads/${issue.image}`}
-                    alt="Issue"
-                    style={{
-                      width: "100%",
-                      maxHeight: "220px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                      marginTop: "10px",
-                    }}
-                  />
-                )}
-              </div>
-
-              {/* Action Buttons */}
-              <div
-                style={{
-                  marginTop: "1rem",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "0.5rem",
-                }}
-              >
-                <button
-                  onClick={() => updateStatus(issue._id, "Resolved")}
-                  style={buttonStyles.green}
-                >
-                  Mark Resolved
-                </button>
-                <button
-                  onClick={() => updateStatus(issue._id, "Pending")}
-                  style={buttonStyles.yellow}
-                >
-                  Mark Pending
-                </button>
-                <button
-                  onClick={() => deleteIssue(issue._id)}
-                  style={buttonStyles.red}
-                >
-                  Delete
-                </button>
+                <div style={styles.actions}>
+                  <button onClick={() => updateStatus(issue._id, "Resolved")} className="btn btn-secondary" style={styles.actionBtn}>
+                    Mark Resolved
+                  </button>
+                  <button onClick={() => updateStatus(issue._id, "In Progress")} className="btn btn-secondary" style={styles.actionBtn}>
+                    In Progress
+                  </button>
+                  <button onClick={() => deleteIssue(issue._id)} className="btn btn-secondary" style={{ ...styles.actionBtn, color: '#d32f2f' }}>
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))
         )}
       </div>
-
-      <Footer />
     </div>
   );
 };
 
-// ✅ Clean reusable button styles
-const buttonStyles = {
-  green: {
-    flex: 1,
-    background: "#28a745",
-    color: "#fff",
-    border: "none",
-    padding: "0.5rem",
-    borderRadius: "6px",
-    cursor: "pointer",
+const styles = {
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
+    gap: "30px",
   },
-  yellow: {
-    flex: 1,
-    background: "#f1c40f",
-    color: "#000",
-    border: "none",
-    padding: "0.5rem",
-    borderRadius: "6px",
-    cursor: "pointer",
+  card: {
+    padding: 0,
+    overflow: "hidden",
   },
-  red: {
-    flex: 1,
-    background: "#dc3545",
-    color: "#fff",
-    border: "none",
-    padding: "0.5rem",
-    borderRadius: "6px",
-    cursor: "pointer",
+  image: {
+    width: "100%",
+    height: "240px",
+    objectFit: "cover",
   },
+  cardContent: {
+    padding: "24px",
+  },
+  headerRow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: "16px",
+  },
+  title: {
+    fontSize: "21px",
+    fontWeight: "600",
+    margin: 0,
+  },
+  badge: {
+    fontSize: "12px",
+    fontWeight: "600",
+    padding: "4px 10px",
+    borderRadius: "980px",
+    textTransform: "uppercase",
+  },
+  description: {
+    fontSize: "15px",
+    color: "#3c3c43",
+    marginBottom: "20px",
+  },
+  infoRow: {
+    background: "#f5f5f7",
+    padding: "16px",
+    borderRadius: "12px",
+    marginBottom: "24px",
+  },
+  meta: {
+    margin: "4px 0",
+    fontSize: "13px",
+    color: "#1d1d1f",
+  },
+  actions: {
+    display: "flex",
+    gap: "10px",
+    flexWrap: "wrap",
+  },
+  actionBtn: {
+    flex: 1,
+    fontSize: "13px",
+    padding: "8px 12px",
+  }
+};
+
+const statusStyles = {
+  Pending: { backgroundColor: "#fff5f0", color: "#ff8c00", border: "1px solid #ffd8c2" },
+  Resolved: { backgroundColor: "#f5fff5", color: "#1a7d1a", border: "1px solid #d5ecd5" },
+  "In Progress": { backgroundColor: "#f5faff", color: "#0071e3", border: "1px solid #d0e7ff" },
 };
 
 export default Admin;

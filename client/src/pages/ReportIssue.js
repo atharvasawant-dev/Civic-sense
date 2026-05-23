@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
-const API_URL = "http://localhost:5000/api/issues";
+const API_URL = `${API_BASE_URL}/issues`;
 
 const ReportIssue = () => {
   const [form, setForm] = useState({
@@ -15,6 +16,7 @@ const ReportIssue = () => {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -30,7 +32,6 @@ const ReportIssue = () => {
     setError("");
     setForm({ ...form, image: file });
     setPreview(file ? URL.createObjectURL(file) : null);
-    e.target.value = null;
   };
 
   const handleSubmit = async (e) => {
@@ -71,86 +72,28 @@ const ReportIssue = () => {
       if (!res.ok) throw new Error("Failed to submit");
 
       setSubmitted(true);
-      setForm({
-        title: "",
-        description: "",
-        category: "",
-        landmark: "",
-        pincode: "",
-        image: null,
-      });
-      setPreview(null);
-      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => navigate('/my-reports'), 2000);
     } catch (err) {
       setError(err.message || "Error submitting issue.");
     }
   };
 
   return (
-    <div
-      style={{
-        background: "#f7f9fc",
-        minHeight: "85vh",
-        padding: "3rem 1rem",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "700px",
-          margin: "0 auto",
-          background: "#fff",
-          padding: "2rem",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h2
-          style={{
-            textAlign: "center",
-            color: "#183153",
-            fontWeight: "700",
-            fontSize: "1.8rem",
-            marginBottom: "1.5rem",
-          }}
-        >
-          📝 Report a New Issue
-        </h2>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="card" style={{ maxWidth: '600px', width: '100%' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Report Issue</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Help us make your city better by reporting local grievances.</p>
 
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-          }}
-        >
-          <input
-            name="title"
-            placeholder="Title"
-            value={form.title}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
+        <form onSubmit={handleSubmit}>
+          <label>Issue Title</label>
+          <input name="title" placeholder="Brief summary" value={form.title} onChange={handleChange} required />
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            required
-            rows="4"
-            style={inputStyle}
-          ></textarea>
+          <label>Description</label>
+          <textarea name="description" placeholder="Tell us more about the issue..." value={form.description} onChange={handleChange} required rows="4" style={{ minHeight: '100px', resize: 'vertical' }}></textarea>
 
-          <select
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          >
-            <option value="">-- Select Category --</option>
+          <label>Category</label>
+          <select name="category" value={form.category} onChange={handleChange} required>
+            <option value="">Select Category</option>
             <option value="Pothole">Pothole</option>
             <option value="Garbage">Garbage</option>
             <option value="Streetlight">Streetlight</option>
@@ -159,88 +102,34 @@ const ReportIssue = () => {
             <option value="Other">Other</option>
           </select>
 
-          <input
-            name="landmark"
-            placeholder="Landmark / Area"
-            value={form.landmark}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
+          <label>Landmark / Area</label>
+          <input name="landmark" placeholder="Where exactly is it?" value={form.landmark} onChange={handleChange} required />
 
-          <input
-            name="pincode"
-            placeholder="Pin Code"
-            value={form.pincode}
-            onChange={handleChange}
-            required
-            style={inputStyle}
-          />
+          <label>Pin Code</label>
+          <input name="pincode" placeholder="6-digit area code" value={form.pincode} onChange={handleChange} required />
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{
-              padding: "0.5rem",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-            }}
-          />
+          <label>Upload Image (Max 2MB)</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
 
           {preview && (
-            <img
-              src={preview}
-              alt="Preview"
-              style={{
-                maxWidth: "200px",
-                margin: "10px auto",
-                display: "block",
-                borderRadius: "8px",
-              }}
-            />
+            <img src={preview} alt="Preview" style={{ maxWidth: "100%", margin: "20px 0", borderRadius: "12px", display: "block" }} />
           )}
 
-          {error && (
-            <p style={{ color: "red", textAlign: "center" }}>{error}</p>
-          )}
+          {error && <div className="message message-error">{error}</div>}
 
-          <button
-            type="submit"
-            style={{
-              background: "#173B6C",
-              color: "#fff",
-              padding: "0.8rem",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: "600",
-              cursor: "pointer",
-              fontSize: "1rem",
-              transition: "0.3s",
-            }}
-          >
-            Submit
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
+            Submit Report
           </button>
         </form>
 
         {submitted && (
-          <p style={{ color: "green", textAlign: "center", marginTop: "1rem" }}>
-            ✅ Issue submitted successfully!
-          </p>
+          <div className="message message-success" style={{ marginTop: '20px', textAlign: 'center' }}>
+            Issue submitted successfully! Redirecting to your reports...
+          </div>
         )}
       </div>
-      <Footer />
     </div>
   );
-};
-
-const inputStyle = {
-  padding: "0.6rem 0.8rem",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  fontSize: "1rem",
-  outline: "none",
-  transition: "0.2s",
 };
 
 export default ReportIssue;

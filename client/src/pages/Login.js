@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const Login = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password,
       });
@@ -26,22 +27,19 @@ const Login = () => {
         return;
       }
 
-      // ✅ Store both token and role
       localStorage.setItem('token', token);
       if (userRole) {
-        localStorage.setItem('role', userRole); // <-- unified key for role
+        localStorage.setItem('role', userRole);
       }
 
       setMessage('Login successful!');
 
-      // ✅ Redirect based on role
       if (userRole === 'admin') {
         navigate('/admin');
       } else {
         navigate('/');
       }
 
-      // ✅ Refresh navbar and components
       window.location.reload();
     } catch (error) {
       setMessage(
@@ -51,114 +49,44 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="login-container"
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '60vh',
-      }}
-    >
-      <div
-        className="login-box"
-        style={{
-          background: '#fff',
-          padding: '2rem',
-          borderRadius: '1.5rem',
-          boxShadow: '0 0 25px rgba(0,0,0,0.08)',
-          minWidth: '360px',
-        }}
-      >
-        <h2
-          style={{
-            textAlign: 'center',
-            marginBottom: '0.6rem',
-            color: '#234',
-            fontWeight: 700,
-          }}
-        >
-          Login
-        </h2>
-        <p
-          style={{
-            textAlign: 'center',
-            color: '#555',
-            marginBottom: '1.5rem',
-          }}
-        >
-          Sign in to report and track civic issues.
-        </p>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Sign In</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Welcome back. Enter your details.</p>
 
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-            marginTop: '1rem',
-          }}
-        >
+        <form onSubmit={handleSubmit}>
+          <label>Email</label>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="name@example.com"
             value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
-            style={{
-              padding: '0.7rem',
-              borderRadius: '0.5rem',
-              border: '1px solid #ccc',
-              fontSize: '1rem',
-            }}
           />
 
+          <label>Password</label>
           <input
             type="password"
             placeholder="Password"
             value={password}
             required
             onChange={(e) => setPassword(e.target.value)}
-            style={{
-              padding: '0.7rem',
-              borderRadius: '0.5rem',
-              border: '1px solid #ccc',
-              fontSize: '1rem',
-            }}
           />
 
-          <button
-            type="submit"
-            style={{
-              padding: '0.7rem',
-              borderRadius: '0.5rem',
-              border: 'none',
-              background: '#234',
-              color: '#fff',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              transition: 'background 0.3s ease',
-            }}
-            onMouseOver={(e) => (e.target.style.background = '#345')}
-            onMouseOut={(e) => (e.target.style.background = '#234')}
-          >
-            Login
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '10px' }}>
+            Sign In
           </button>
         </form>
 
         {message && (
-          <div
-            style={{
-              marginTop: '1rem',
-              textAlign: 'center',
-              color: message.includes('successful') ? 'green' : 'red',
-              fontWeight: 500,
-            }}
-          >
+          <div className={`message ${message.includes('successful') ? 'message-success' : 'message-error'}`} style={{ marginTop: '20px', textAlign: 'center' }}>
             {message}
           </div>
         )}
+
+        <p style={{ textAlign: 'center', marginTop: '24px', fontSize: '14px', color: '#86868b' }}>
+          Don't have an account? <span onClick={() => navigate('/register')} style={{ color: '#0071e3', cursor: 'pointer' }}>Register now</span>
+        </p>
       </div>
     </div>
   );

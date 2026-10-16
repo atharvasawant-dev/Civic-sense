@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Footer from '../components/Footer';
+import { API_BASE_URL } from '../config';
 
-const API_URL = 'http://localhost:5000/api/issues';
+const API_URL = `${API_BASE_URL}/issues`;
 
 const statusColors = {
   'Submitted': '#ffe066',
@@ -22,7 +23,10 @@ const IssueStatus = () => {
   useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
-      .then(data => setIssues(data))
+      .then(data => {
+        const list = Array.isArray(data) ? data : (data.issues || []);
+        setIssues(list);
+      })
       .catch(() => setIssues([]));
   }, []);
 

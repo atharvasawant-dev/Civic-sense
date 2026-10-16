@@ -56,6 +56,11 @@ const ReportIssue = () => {
 
     try {
       const token = localStorage.getItem("token");
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
       const formData = new FormData();
       Object.entries(form).forEach(([key, val]) => {
         if (val) formData.append(key, val);
@@ -69,62 +74,127 @@ const ReportIssue = () => {
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Failed to submit");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Failed to submit report");
 
       setSubmitted(true);
-      setTimeout(() => navigate('/my-reports'), 2000);
+      const createdId = data.issue?._id;
+      setTimeout(() => {
+        if (createdId) navigate(`/issues/${createdId}`);
+        else navigate('/my-reports');
+      }, 1500);
     } catch (err) {
       setError(err.message || "Error submitting issue.");
     }
   };
 
   return (
-    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <div className="card" style={{ maxWidth: '600px', width: '100%' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Report Issue</h2>
-        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Help us make your city better by reporting local grievances.</p>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', boxSizing: 'border-box' }}>
+      <div className="card" style={{ maxWidth: '580px', width: '100%', boxSizing: 'border-box' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '26px', margin: '0 0 8px 0' }}>Report Civic Issue</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', margin: '0 0 24px 0', fontSize: '14px', lineHeight: 1.4 }}>
+          Help local municipal authorities resolve grievances by submitting clear details.
+        </p>
 
-        <form onSubmit={handleSubmit}>
-          <label>Issue Title</label>
-          <input name="title" placeholder="Brief summary" value={form.title} onChange={handleChange} required />
+        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+          <label htmlFor="issue-title">Issue Title</label>
+          <input
+            id="issue-title"
+            type="text"
+            name="title"
+            placeholder="Brief summary (e.g., Deep Pothole on Hill Road)"
+            value={form.title}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          />
 
-          <label>Description</label>
-          <textarea name="description" placeholder="Tell us more about the issue..." value={form.description} onChange={handleChange} required rows="4" style={{ minHeight: '100px', resize: 'vertical' }}></textarea>
+          <label htmlFor="issue-desc">Description</label>
+          <textarea
+            id="issue-desc"
+            name="description"
+            placeholder="Describe the issue, hazards, and how long it has been present..."
+            value={form.description}
+            onChange={handleChange}
+            required
+            rows="4"
+            style={{ minHeight: '100px', resize: 'vertical', width: '100%', boxSizing: 'border-box' }}
+          ></textarea>
 
-          <label>Category</label>
-          <select name="category" value={form.category} onChange={handleChange} required>
+          <label htmlFor="issue-cat">Category</label>
+          <select
+            id="issue-cat"
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          >
             <option value="">Select Category</option>
-            <option value="Pothole">Pothole</option>
-            <option value="Garbage">Garbage</option>
-            <option value="Streetlight">Streetlight</option>
-            <option value="Water Supply">Water Supply</option>
-            <option value="Drainage">Drainage</option>
-            <option value="Other">Other</option>
+            <option value="Pothole">🕳️ Pothole</option>
+            <option value="Garbage">🗑️ Garbage Overflow</option>
+            <option value="Streetlight">💡 Streetlight Outage</option>
+            <option value="Water Supply">🚰 Water Leakage / Supply</option>
+            <option value="Drainage">🌊 Drainage / Flooding</option>
+            <option value="Other">📢 Other Civic Grievance</option>
           </select>
 
-          <label>Landmark / Area</label>
-          <input name="landmark" placeholder="Where exactly is it?" value={form.landmark} onChange={handleChange} required />
+          <label htmlFor="issue-landmark">Landmark / Exact Location</label>
+          <input
+            id="issue-landmark"
+            type="text"
+            name="landmark"
+            placeholder="E.g. Opposite St. Andrew's Church, Hill Road"
+            value={form.landmark}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          />
 
-          <label>Pin Code</label>
-          <input name="pincode" placeholder="6-digit area code" value={form.pincode} onChange={handleChange} required />
+          <label htmlFor="issue-pincode">Area Pin Code</label>
+          <input
+            id="issue-pincode"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={6}
+            name="pincode"
+            placeholder="6-digit postal code (e.g. 400050)"
+            value={form.pincode}
+            onChange={handleChange}
+            required
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          />
 
-          <label>Upload Image (Max 2MB)</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} style={{ border: 'none', padding: '0' }} />
+          <label htmlFor="issue-image">Attach Photo (Optional, Max 2MB)</label>
+          <input
+            id="issue-image"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ width: '100%', boxSizing: 'border-box' }}
+          />
 
           {preview && (
-            <img src={preview} alt="Preview" style={{ maxWidth: "100%", margin: "20px 0", borderRadius: "12px", display: "block" }} />
+            <div style={{ marginBottom: '20px', borderRadius: '10px', overflow: 'hidden', border: '1px solid #e5e5e7' }}>
+              <img src={preview} alt="Preview" style={{ width: '100%', maxHeight: '240px', objectFit: 'cover', display: 'block' }} />
+            </div>
           )}
 
           {error && <div className="message message-error">{error}</div>}
 
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            style={{ width: '100%', minHeight: '48px', fontSize: '16px', fontWeight: '600', marginTop: '8px' }}
+          >
             Submit Report
           </button>
         </form>
 
         {submitted && (
-          <div className="message message-success" style={{ marginTop: '20px', textAlign: 'center' }}>
-            Issue submitted successfully! Redirecting to your reports...
+          <div className="message message-success" style={{ marginTop: '16px', textAlign: 'center' }}>
+            ✓ Issue submitted successfully! Redirecting to report details...
           </div>
         )}
       </div>

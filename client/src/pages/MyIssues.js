@@ -1,22 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { API_BASE_URL } from "../config";
+// client/src/pages/MyIssues.js
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import IssueCard from '../components/IssueCard';
+import { API_BASE_URL } from '../config';
 
-const API_URL = `${API_BASE_URL}/issues/my`;
+const statuses = ['All', 'Pending', 'In Progress', 'Resolved'];
 
 const MyIssues = () => {
   const [issues, setIssues] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('All');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchIssues = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(API_URL, {
+      const res = await fetch(`${API_BASE_URL}/issues/my`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       setIssues(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error("Error fetching issues:", err);
+      console.error('Error fetching issues:', err);
       setIssues([]);
     } finally {
       setLoading(false);
@@ -25,112 +34,99 @@ const MyIssues = () => {
 
   useEffect(() => {
     fetchIssues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return (
-    <div className="page-container" style={{ textAlign: "center" }}>
-      <p style={{ color: "#86868b", fontSize: "21px" }}>Loading your reports...</p>
-    </div>
+  const filtered = issues.filter((i) =>
+    statusFilter === 'All' ? true : i.status === statusFilter
   );
 
-  return (
-    <div className="page-container">
-      <h2 style={{ fontSize: "40px", fontWeight: "600", marginBottom: "8px" }}>My Reports</h2>
-      <p style={{ color: "#86868b", fontSize: "21px", marginBottom: "40px" }}>Track the status of your reported grievances.</p>
+  if (loading) {
+    return (
+      <div style={{ maxWidth: '860px', margin: '0 auto', padding: '90px 16px', textAlign: 'center' }}>
+        <p style={{ fontSize: '24px' }}>📋</p>
+        <p style={{ color: '#86868b' }}>Loading your civic reports...</p>
+      </div>
+    );
+  }
 
-      {issues.length === 0 ? (
-        <div className="card" style={{ textAlign: "center" }}>
-          <p style={{ color: "#86868b", fontSize: "17px" }}>You haven’t reported any issues yet.</p>
+  return (
+    <div style={{ maxWidth: '860px', margin: '0 auto', padding: '74px 14px 80px 14px', width: '100%', boxSizing: 'border-box' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h1 style={{ fontSize: '24px', fontWeight: '700', margin: '0 0 4px 0', wordBreak: 'break-word' }}>My Reports</h1>
+          <p style={{ color: '#86868b', fontSize: '14px', margin: 0, lineHeight: 1.4 }}>
+            Track progress and municipal action on grievances you reported.
+          </p>
+        </div>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate('/report-issue')}
+          style={{ padding: '8px 18px', fontSize: '13px', minHeight: '40px' }}
+        >
+          ➕ Report New Issue
+        </button>
+      </div>
+
+      {/* Filter Tabs */}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
+        {statuses.map((st) => {
+          const count = st === 'All' ? issues.length : issues.filter((i) => i.status === st).length;
+          return (
+            <button
+              key={st}
+              onClick={() => setStatusFilter(st)}
+              style={{
+                backgroundColor: statusFilter === st ? '#1c1c1c' : '#ffffff',
+                color: statusFilter === st ? '#ffffff' : '#555',
+                border: '1px solid #d2d2d7',
+                padding: '6px 14px',
+                borderRadius: '999px',
+                fontSize: '13px',
+                fontWeight: '600',
+                cursor: 'pointer',
+              }}
+            >
+              {st} ({count})
+            </button>
+          );
+        })}
+      </div>
+
+      {filtered.length === 0 ? (
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            border: '1px solid #e5e5e7',
+            borderRadius: '12px',
+            padding: '48px 24px',
+            textAlign: 'center',
+          }}
+        >
+          <span style={{ fontSize: '48px', display: 'block', marginBottom: '12px' }}>📭</span>
+          <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '8px' }}>
+            No reports found in this status
+          </h3>
+          <p style={{ color: '#86868b', fontSize: '14px', marginBottom: '20px' }}>
+            Have you spotted another pothole, water leak, or street problem?
+          </p>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate('/report-issue')}
+            style={{ padding: '8px 20px', fontSize: '14px' }}
+          >
+            Report an Issue
+          </button>
         </div>
       ) : (
-        <div style={styles.grid}>
-          {issues.map((issue) => (
-            <div key={issue._id} className="card" style={styles.card}>
-              {issue.imageUrl && (
-                <img src={issue.imageUrl} alt={issue.title} style={styles.image} />
-              )}
-              <div style={styles.cardContent}>
-                <div style={styles.headerRow}>
-                  <h3 style={styles.title}>{issue.title}</h3>
-                  <span style={{ ...styles.badge, ...statusStyles[issue.status] }}>
-                    {issue.status}
-                  </span>
-                </div>
-                <p style={styles.description}>{issue.description}</p>
-                <div style={styles.footerRow}>
-                  <span style={styles.meta}>📍 {issue.landmark}, {issue.pincode}</span>
-                  <span style={styles.meta}>📅 {new Date(issue.date).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </div>
+        <div>
+          {filtered.map((issue) => (
+            <IssueCard key={issue._id} issue={issue} />
           ))}
         </div>
       )}
     </div>
   );
-};
-
-const styles = {
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-    gap: "30px",
-  },
-  card: {
-    padding: 0,
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-  },
-  image: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  },
-  cardContent: {
-    padding: "24px",
-  },
-  headerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    marginBottom: "12px",
-  },
-  title: {
-    fontSize: "21px",
-    fontWeight: "600",
-    margin: 0,
-  },
-  badge: {
-    fontSize: "12px",
-    fontWeight: "600",
-    padding: "4px 10px",
-    borderRadius: "980px",
-    textTransform: "uppercase",
-  },
-  description: {
-    fontSize: "15px",
-    color: "#3c3c43",
-    lineHeight: 1.5,
-    marginBottom: "20px",
-  },
-  footerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    fontSize: "13px",
-    color: "#86868b",
-  },
-  meta: {
-    display: "flex",
-    alignItems: "center",
-    gap: "4px",
-  }
-};
-
-const statusStyles = {
-  Pending: { backgroundColor: "#fff5f0", color: "#ff8c00", border: "1px solid #ffd8c2" },
-  Resolved: { backgroundColor: "#f5fff5", color: "#1a7d1a", border: "1px solid #d5ecd5" },
-  "In Progress": { backgroundColor: "#f5faff", color: "#0071e3", border: "1px solid #d0e7ff" },
 };
 
 export default MyIssues;

@@ -28,31 +28,33 @@ const Register = () => {
       const data = await res.json();
       if (res.ok) {
         setSuccess(true);
-        localStorage.setItem('role', data.user.role);
-        setTimeout(() => navigate('/login'), 2000);
+        if (data.user && data.user.role) {
+          localStorage.setItem('role', data.user.role);
+        }
+        setTimeout(() => navigate('/login'), 1500);
       } else {
-        setError(data.error || 'Registration failed.');
+        setError(data.message || data.error || 'Registration failed.');
       }
     } catch (err) {
-      setError('Registration failed.');
+      setError('Registration failed. Please check your connection.');
     }
   };
 
   return (
-    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Create Account</h2>
-        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Join the community for a better city.</p>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', width: '100%', boxSizing: 'border-box' }}>
+      <div className="card" style={{ maxWidth: '400px', width: '100%', boxSizing: 'border-box' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '26px', marginBottom: '8px' }}>Create Account</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '24px', fontSize: '14px' }}>Join the community for a better city.</p>
 
         <form onSubmit={handleSubmit}>
           <label>Full Name</label>
-          <input type="text" name="name" placeholder="John Doe" value={form.name} onChange={handleChange} />
+          <input type="text" name="name" placeholder="John Doe" value={form.name} onChange={handleChange} required />
 
           <label>Email</label>
-          <input type="email" name="email" placeholder="name@example.com" value={form.email} onChange={handleChange} />
+          <input type="email" name="email" placeholder="name@example.com" value={form.email} onChange={handleChange} required />
 
           <label>Password</label>
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
 
           <label>Account Type</label>
           <select name="role" value={form.role} onChange={handleChange}>

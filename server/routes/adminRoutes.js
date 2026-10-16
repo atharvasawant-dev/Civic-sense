@@ -2,7 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const Issue = require('../models/Issue');
+const Notification = require('../models/Notification');
 const { verifyAdmin } = require('../middleware/roleMiddleware');
+const { buildImageUrl } = require('../services/uploadService');
 
 // ✅ Get all issues
 router.get('/issues', verifyAdmin, async (req, res) => {
@@ -10,7 +12,12 @@ router.get('/issues', verifyAdmin, async (req, res) => {
     const issues = await Issue.find()
       .populate('user', 'name email')
       .sort({ date: -1 });
-    res.json(issues);
+    const host = `${req.protocol}://${req.get('host')}`;
+    const formatted = issues.map((i) => ({
+      ...i.toObject(),
+      imageUrl: buildImageUrl(i.image, host),
+    }));
+    res.json(formatted);
   } catch (err) {
     console.error('Error fetching issues:', err);
     res.status(500).json({ error: 'Server error fetching issues' });
@@ -21,8 +28,9 @@ router.get('/issues', verifyAdmin, async (req, res) => {
 router.put('/issues/:id/status', verifyAdmin, async (req, res) => {
   try {
     const { status } = req.body;
-    if (!['Pending', 'Resolved'].includes(status)) {
-      return res.status(400).json({ error: 'Invalid status' });
+    const allowed = ['Pending', 'In Progress', 'Resolved'];
+    if (!status || !allowed.includes(status)) {
+      return res.status(400).json({ error: `Invalid status. Allowed values: ${allowed.join(', ')}` });
     }
 
     const issue = await Issue.findByIdAndUpdate(
@@ -34,6 +42,14 @@ router.put('/issues/:id/status', verifyAdmin, async (req, res) => {
     if (!issue) {
       return res.status(404).json({ error: 'Issue not found' });
     }
+
+    // Send notification to author
+    await Notification.create({
+      recipient: issue.user,
+      issue: issue._id,
+      type: 'status_change',
+      message: `Your civic report "${issue.title}" status was updated to "${status}".`,
+    }).catch((err) => console.error('Notification error:', err));
 
     res.json({ message: 'Status updated successfully', issue });
   } catch (err) {

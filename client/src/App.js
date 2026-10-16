@@ -4,14 +4,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import IssueDetail from "./pages/IssueDetail";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ReportIssue from "./pages/ReportIssue";
 import MyIssues from "./pages/MyIssues";
+import MyActivity from "./pages/MyActivity";
+import Notifications from "./pages/Notifications";
+import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Issues from "./pages/Issues";
 
 function App() {
   return (
@@ -19,15 +22,21 @@ function App() {
       <Header />
       <div style={{ minHeight: "90vh", background: "#f8f9fb" }}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home defaultSort="latest" />} />
+          <Route path="/popular" element={<Home defaultSort="popular" />} />
+          <Route path="/issues" element={<Home defaultSort="latest" />} />
+          <Route path="/issues/:id" element={<IssueDetail />} />
+          <Route path="/issue/:id" element={<IssueDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/report-issue" element={<ReportIssue />} />
           <Route path="/my-reports" element={<MyIssues />} />
+          <Route path="/my-activity" element={<MyActivity />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/issues" element={<Issues />} />
         </Routes>
       </div>
       <Footer />

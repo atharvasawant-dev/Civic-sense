@@ -1,10 +1,14 @@
-﻿node_modules/
+node_modules/
 client/node_modules/
 server/node_modules/
 .env
 .DS_Store
 dist/
 build/
+client/build/
 uploads/
+server/uploads/
+*.pem
+server/config/local_ca.pem
 npm-debug.log
 yarn-error.log

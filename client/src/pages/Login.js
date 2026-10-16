@@ -49,10 +49,10 @@ const Login = () => {
   };
 
   return (
-    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-      <div className="card" style={{ maxWidth: '400px', width: '100%' }}>
-        <h2 style={{ textAlign: 'center', fontSize: '32px', marginBottom: '8px' }}>Sign In</h2>
-        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '32px' }}>Welcome back. Enter your details.</p>
+    <div className="page-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh', width: '100%', boxSizing: 'border-box' }}>
+      <div className="card" style={{ maxWidth: '400px', width: '100%', boxSizing: 'border-box' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '26px', marginBottom: '8px' }}>Sign In</h2>
+        <p style={{ textAlign: 'center', color: '#86868b', marginBottom: '24px', fontSize: '14px' }}>Welcome back. Enter your details.</p>
 
         <form onSubmit={handleSubmit}>
           <label>Email</label>

@@ -89,7 +89,7 @@ The backend uses port `5000` by default.
 
 ### 3. Install and Configure the Frontend
 
-The frontend reads the backend address from `REACT_APP_API_URL` at build time (defaults to `http://localhost:5000`). See `client/.env.example`.
+The frontend reads the backend address from `REACT_APP_API_BASE_URL` at build time (defaults to `http://localhost:5000`). See `client/.env.example`.
 
 Open a second terminal in the project root:
 

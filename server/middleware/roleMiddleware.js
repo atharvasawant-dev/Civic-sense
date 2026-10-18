@@ -1,12 +1,13 @@
 // server/middleware/roleMiddleware.js
 const jwt = require('jsonwebtoken');
+const { getJwtSecret } = require('../config');
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: 'No token provided' });
   const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret', (err, decoded) => {
+  jwt.verify(token, getJwtSecret(), (err, decoded) => {
     if (err) {
       console.error('JWT verify error:', err.message);
       return res.status(403).json({ message: 'Invalid token' });

@@ -30,6 +30,7 @@ jobs:
         node-version: '18'
     - name: Install dependencies
       run: cd server && npm install
-    # No tests defined for backend yet, but we can verify it starts
-    - name: Verify build
+    - name: Verify syntax
       run: cd server && node -c app.js
+    - name: Run backend tests
+      run: cd server && npm test

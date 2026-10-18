@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const { getJwtSecret, getAllowedOrigins } = require('./config');
+
+// Fail fast if the signing secret is missing instead of using an insecure default.
+getJwtSecret();
 const app = express();
 
 // ====== DATABASE CONNECTION ======
@@ -11,7 +15,7 @@ mongoose
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // ====== MIDDLEWARES ======
-app.use(cors());
+app.use(cors({ origin: getAllowedOrigins() }));
 app.use(express.json());
 
 // ✅ Serve uploaded images

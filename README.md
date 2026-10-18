@@ -71,6 +71,14 @@ CLIENT_URL=http://localhost:3000
 
 Replace the placeholder values with your local configuration. Keep these credentials private.
 
+`JWT_SECRET` is **required**: the server refuses to start without it. Generate one with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+```
+
+Set `CLIENT_URL` to your frontend origin(s), comma-separated, to restrict CORS. If it is unset, any origin is allowed (development only).
+
 Start the backend:
 
 ```bash
@@ -80,6 +88,8 @@ npm start
 The backend uses port `5000` by default.
 
 ### 3. Install and Configure the Frontend
+
+The frontend reads the backend address from `REACT_APP_API_URL` at build time (defaults to `http://localhost:5000`). See `client/.env.example`.
 
 Open a second terminal in the project root:
 
@@ -215,3 +225,9 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ---
 
 **Civic Sense — Report local problems. Help build better communities.**
+
+## Tests
+
+```bash
+cd server && npm test
+```
